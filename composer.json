@@ -1,0 +1,16 @@
+{
+    "name": "kk-smiles/firewatch",
+    "description": "A error tracking/reporting package for laravel",
+    "authors": [{
+        "name": "Kaung Khant",
+        "email": "thenotsorealkk@email.com"
+    }],
+    "autoload": {
+        "psr-4": {
+            "KkSmiles\\Firewatch\\": "src/"
+        }
+    },
+    "require": {
+        "defstudio/telegraph": "^1.14"
+    }
+}
