@@ -1,0 +1,3 @@
+[submodule "packages/firewatch"]
+	path = packages/firewatch
+	url = https://github.com/kksmiles/firewatch
