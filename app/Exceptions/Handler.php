@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -44,7 +45,35 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
+            // dd($e);
+            // dd($e->getFile());
+
+            // $data = FirewatchError::create([
+            //     'error_message' => 'message',
+            //     'error_line_no' => 1,
+            //     'error_file_name' => 'dummy',
+            //     'error_code' => 'dummy',
+            //     'error_stack_trace' => 'dummy',
+            //     'occurence_count' => 1,
+            //     'request_url' => 'dummy',
+            //     'request_method' => 'dummy',
+            // ]);
+
+            $data = DB::table('firewatch_errors')->insert([
+                'error_message' => $e->getMessage(),
+                'error_line_no' => $e->getLine(),
+                'error_file_name' => $e->getFile(),
+                'error_code' => $e->getCode(),
+                'error_stack_trace' => 'dummy',
+                'occurence_count' => 1,
+                'request_url' => 'dummy',
+                'request_method' => 'dummy',
+            ]);
+
+            dd($data);
+
         });
+
     }
+
 }
