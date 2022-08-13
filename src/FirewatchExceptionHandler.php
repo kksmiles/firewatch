@@ -1,9 +1,9 @@
 <?php
+
 namespace KkSmiles\Firewatch;
 
 use Throwable;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use DefStudio\Telegraph\Models\TelegraphChat;
 use KkSmiles\Firewatch\TelegramMessageSender;
 
 /**
@@ -39,8 +39,9 @@ class FirewatchExceptionHandler implements ExceptionHandler
      */
     public function report(Throwable $e)
     {
-        if(in_array('telegram', config('firewatch.notify_to'))) {
-            TelegramMessageSender::sendMessage($e);
+        if (in_array('telegram', config('firewatch.notify_to'))) {
+            $ocurrence_count = 1000;
+            TelegramMessageSender::sendMessage($e, $ocurrence_count);
         }
         $this->defaultHandler->report($e);
     }
