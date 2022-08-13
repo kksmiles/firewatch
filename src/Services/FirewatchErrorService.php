@@ -8,21 +8,12 @@ class FirewatchErrorService
 {
     public static function AddErrorRecord($e)
     {
-        // TODO - replace dummy data
-        // TODO - if same error exists, occurence_count + 1
-        // TODO - remove temporary data
-
-        $error_line_no = $e->getLine();
-        $error_file_name = $e->getFile();
-        $request_url = request()->path();
-        $request_method = request()->method();
-
         $error = FirewatchError::firstOrCreate(
             [
-                'error_line_no' => $error_line_no,
-                'error_file_name' => $error_file_name,
-                'request_url' => $request_url,
-                'request_method' => $request_method
+                'error_line_no' => $e->getLine(),
+                'error_file_name' => $e->getFile(),
+                'request_url' => request()->path(),
+                'request_method' => request()->method()
             ],
             [
                 'error_message' => $e->getMessage(),
@@ -31,6 +22,10 @@ class FirewatchErrorService
                 'occurence_count' => 0
             ]
         );
+
+        if ($error->solved_date != null ) {
+            $error->solved_date = null;
+        }
         $error->occurence_count += 1;
         $error->update();
 

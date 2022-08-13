@@ -40,7 +40,7 @@ class FirewatchExceptionHandler implements ExceptionHandler
      */
     public function report(Throwable $e)
     {
-        $data = FirewatchErrorService::AddErrorRecord($e);
+        $error = FirewatchErrorService::AddErrorRecord($e);
 
         if (in_array('telegram', config('firewatch.notify_to'))) {
             TelegramMessageSender::sendMessage($e);
