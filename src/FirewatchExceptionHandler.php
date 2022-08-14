@@ -3,8 +3,11 @@
 namespace KkSmiles\Firewatch;
 
 use Throwable;
-use Illuminate\Contracts\Debug\ExceptionHandler;
+
+use Illuminate\Http\Request;
 use KkSmiles\Firewatch\TelegramMessageSender;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use KkSmiles\Firewatch\Services\FirewatchErrorService;
 
 /**
  * The exception handler to override the default.
@@ -39,9 +42,10 @@ class FirewatchExceptionHandler implements ExceptionHandler
      */
     public function report(Throwable $e)
     {
+        $error = FirewatchErrorService::AddErrorRecord($e);
+
         if (in_array('telegram', config('firewatch.notify_to'))) {
-            $ocurrence_count = 1000;
-            TelegramMessageSender::sendMessage($e, $ocurrence_count);
+            TelegramMessageSender::sendMessage($e, $error->occurence_count);
         }
         $this->defaultHandler->report($e);
     }
